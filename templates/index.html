@@ -64,6 +64,33 @@
             margin-top: 35px;
         }
     </style>
+
+    <script>
+        function q1() {
+            $('#plant-card').empty();
+            $.ajax({
+                type: "GET",
+                url: "/api/list",
+                data: {},
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        let plant_name = response[i]['name'];
+                        let plant_img = response[i]['img'];
+                        let temp_html =
+                            `<div class="card">
+                                <img src="${plant_img}"
+                                     class="card-img-top">
+                                <div class="card-body">
+                                    <h3 class="card-title">${plant_name}</h3>
+                                </div>
+                            </div> `
+                        $('#plant-card').append(temp_html);
+                    }
+                }
+            })
+        }
+    </script>
+
 </head>
 <body>
     <div class="headline">
@@ -82,42 +109,8 @@
         <button type="button" class="btn btn-outline-warning">카테고리 2</button>
     </div>
     <div class="row row-cols-1 row-cols-md-4 g-4">
-        <div class="col">
-            <div class="card">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6KDJ343_SH9pdA_64s1J4Sf8PcpMv2itMVA&usqp=CAU"
-                     class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h3 class="card-title">식물 이름</h3>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6KDJ343_SH9pdA_64s1J4Sf8PcpMv2itMVA&usqp=CAU"
-                     class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h3 class="card-title">식물 이름</h3>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6KDJ343_SH9pdA_64s1J4Sf8PcpMv2itMVA&usqp=CAU"
-                     class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h3 class="card-title">식물 이름</h3>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6KDJ343_SH9pdA_64s1J4Sf8PcpMv2itMVA&usqp=CAU"
-                     class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h3 class="card-title">식물 이름</h3>
-                </div>
-            </div>
-        </div>
+        <div class="col" id="plant-card"></div>
+
     </div>
     <div class="more">
         <button type="button" class="btn btn-primary btn-lg">더보기</button>
