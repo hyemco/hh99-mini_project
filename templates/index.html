@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
+
+        <title>SHARE GARDEN</title>
+    </head>
+    <style>
+        .search {
+            background-color: green;
+            color: white;
+
+            width: 100%;
+            height: 300px;
+
+            text-align: center;
+
+            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQxp29AibB19HX4zL4hxkq_UHa3CaYBfvcXrA&usqp=CAU");
+            background-size: cover;
+            background-position: center;
+
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            width: 250px;
+
+            display: flex;
+            /*justify-content: space-between;*/
+            margin: 0 60px;
+            margin-top: 65px;
+            flex-wrap: wrap;
+            float: left;
+        }
+        .title{
+            display: inline-block;
+        }
+        .login {
+            display: inline-block;
+
+            float: right;
+        }
+        .category {
+            margin: 0 35px;
+            margin-top: 30px;
+        }
+        .more {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+
+            margin: 0 30px;
+            margin-top: 35px;
+        }
+    </style>
+</head>
+<body>
+    <div class="headline">
+        <h1 class="title">SHARE GARDEN</h1>
+        <div class="login">
+            <button type="button" class="btn btn-outline-dark">login</button>
+            <button type="button" class="btn btn-dark">sign up</button>
+        </div>
+    </div>
+    <div class="search">
+       <input type="search">
+        <button type="button" class="search-button">검색</button>
+    </div>
+    <div class="category">
+        <button type="button" class="btn btn-outline-warning">카테고리 1</button>
+        <button type="button" class="btn btn-outline-warning">카테고리 2</button>
+    </div>
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="col">
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6KDJ343_SH9pdA_64s1J4Sf8PcpMv2itMVA&usqp=CAU"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h3 class="card-title">식물 이름</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6KDJ343_SH9pdA_64s1J4Sf8PcpMv2itMVA&usqp=CAU"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h3 class="card-title">식물 이름</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6KDJ343_SH9pdA_64s1J4Sf8PcpMv2itMVA&usqp=CAU"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h3 class="card-title">식물 이름</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6KDJ343_SH9pdA_64s1J4Sf8PcpMv2itMVA&usqp=CAU"
+                     class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h3 class="card-title">식물 이름</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="more">
+        <button type="button" class="btn btn-primary btn-lg">더보기</button>
+    </div>
+</body>
+</html>
