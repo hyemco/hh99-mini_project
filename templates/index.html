@@ -19,6 +19,11 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
+	<!-- Gogle font -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap" rel="stylesheet"
+
 	<meta charset="UTF-8">
 	<title>Title</title>
 
@@ -179,30 +184,17 @@
 	</script>
 
 	<style>
-		h3 {
-			font-size: 1rem;
-		}
-        .input {
-            border-radius: 30px;
+        * {
+            font-family: 'Noto Sans KR', sans-serif;
         }
 
-        .search {
-            background-color: green;
-            color: white;
+        h3 {
+            font-size: 1rem;
 
-            width: 100%;
-            height: 300px;
+        }
 
-            text-align: center;
-
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url("{{ url_for('static', filename='banner.jpg') }}");
-            background-size: cover;
-            background-position: center;
-
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
+        .input {
+            border-radius: 30px;
         }
 
         .card {
@@ -216,19 +208,13 @@
             float: left;
         }
 
-        .title {
-            display: inline-block;
-        }
-
-        .login {
-            display: inline-block;
-
-            float: right;
-        }
-
         .category {
-            margin: 0 35px;
             margin-top: 30px;
+        }
+
+        .category_list {
+	        margin: 0;
+	        padding: 0;
         }
 
         .more {
@@ -239,10 +225,6 @@
 
             margin: 0 30px;
             margin-top: 35px;
-        }
-
-        .card-body{
-	        padding: 0;
         }
 
         .plant-list {
@@ -267,14 +249,111 @@
             width: 230px;
 	        margin-bottom: 12px;
         }
+
+        .flexbox {
+	        background-color: #F5F1EE;
+            {#background-image: url("{{ url_for('static', filename='banner.jpg') }}");#}
+            background-size: 100% 400px;
+            width: 100%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search {
+            margin: 20px;
+        }
+
+        .search > h1 {
+            color: black;
+            margin-bottom: 15px;
+            font-size: 2rem;
+            text-align: center;
+        }
+
+        .search > div:after {
+            content: "";
+            background: black;
+            width: 4px;
+            height: 20px;
+            position: absolute;
+            top: 40px;
+            right: 2px;
+            transform: rotate(135deg);
+        }
+
+        .search > div > input {
+            color: black;
+            font-size: 16px;
+            background: transparent;
+            width: 40px;
+            height: 40px;
+            padding: 10px;
+            border: solid 3px black;
+            outline: none;
+            border-radius: 35px;
+            transition: width 0.5s;
+        }
+
+        .search > div > input::placeholder {
+            color: black;
+            opacity: 0;
+            transition: opacity 150ms ease-out;
+        }
+
+        .search > div > input:focus::placeholder {
+            opacity: 1;
+        }
+
+        .search > div > input:focus,
+        .search > div > input:not(:placeholder-shown) {
+            width: 250px;
+        }
+
+        .search-box {
+            position: absolute;
+			top: 45%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            height: 40px;
+            border-radius: 40px;
+            padding: 10px;
+        }
+
+        .contain {
+            width: 1450px;
+            margin: 0 auto;
+        }
+
+        .main_bg img {
+            height: 100vh;
+            width: 100%;
+            display: block;
+            margin: 0 auto;
+            object-fit: cover;
+            opacity: 0.9;
+            z-index: 0;
+        }
+
+        .login-btn {
+            display: inline-block;
+
+            float: right;
+        }
 	</style>
 
 
 <body>
-	<div class="headline">
-		<h1 class="title">SHARE GARDEN</h1>
-		<div>
-			<button class="login" onclick='$("#modal-login").addClass("is-active")'>Login</button>
+	<nav class="section">
+		<div class="contain">
+			<a href="/" class="logo">
+				<img src="../static/logo.png" alt="logo" style="width: 30px">
+				<span class="logo_span">SHAREGARDEN</span>
+			</a>
+			<div class="login-btn">
+			<button class="level-item button is-sparta is-outlined" onclick='$("#modal-login").addClass("is-active")'>Login</button>
 			<div class="modal" id="modal-login">
 				<div class="modal-background" onclick='$("#modal-login").removeClass("is-active")'></div>
 				<div class="modal-content">
@@ -285,9 +364,11 @@
 									<div class="content">
 										<div class="field has-addons">
 											<div class="control has-icons-left" style="width:100%">
-												<input id="input-user_id" class="input" type="text" placeholder="아이디"
+												<input id="input-user_id" class="input" type="text"
+												       placeholder="아이디"
 												       onblur="check_dup()">
-												<span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+												<span class="icon is-small is-left"><i
+													class="fa fa-user"></i></span>
 											</div>
 										</div>
 										<p id="help-id" class="help is-hidden">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력
@@ -296,10 +377,13 @@
 
 										<div class="field">
 											<div class="control has-icons-left">
-												<input id="input-password" class="input" type="password" placeholder="비밀번호">
-												<span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+												<input id="input-password" class="input" type="password"
+												       placeholder="비밀번호">
+												<span class="icon is-small is-left"><i
+													class="fa fa-lock"></i></span>
 											</div>
-											<p id="help-password" class="help is-hidden">영문과 숫자 조합의 8-20자의 비밀번호를 설정해주세요.
+											<p id="help-password" class="help is-hidden">영문과 숫자 조합의 8-20자의 비밀번호를
+												설정해주세요.
 												특수문자(!@#$%^&*)도 사용
 												가능합니다.</p>
 										</div>
@@ -328,9 +412,11 @@
 												<div class="control has-icons-left" style="width:100%">
 													<input id="input-password2" class="input" type="password"
 													       placeholder="비밀번호 재입력">
-													<span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+													<span class="icon is-small is-left"><i
+														class="fa fa-lock"></i></span>
 												</div>
-												<p id="help-password2" class="help is-hidden">비밀번호를 다시 한 번 입력해주세요.</p>
+												<p id="help-password2" class="help is-hidden">비밀번호를 다시 한 번
+													입력해주세요.</p>
 
 											</div>
 										</div>
@@ -349,56 +435,38 @@
 						</article>
 					</div>
 				</div>
-				{#				<div class="box">#}
-				{#					<article class="media">#}
-				{#						<div class="media-content">#}
-				{#							<div class="field">#}
-				{#								<p class="control">#}
-				{#                                        <textarea id="textarea-post" class="textarea"#}
-				{#                                                  placeholder="무슨 생각을 하고 계신가요?"></textarea>#}
-				{#								</p>#}
-				{#							</div>#}
-				{#							<nav class="level is-mobile">#}
-				{#								<div class="level-left">#}
-				{##}
-				{#								</div>#}
-				{#								<div class="level-right">#}
-				{#									<div class="level-item">#}
-				{#										<a class="button is-sparta" onclick="post()">포스팅하기</a>#}
-				{#									</div>#}
-				{#									<div class="level-item">#}
-				{#										<a class="button is-sparta is-outlined"#}
-				{#										   onclick='$("#modal-login").removeClass("is-active")'>취소</a>#}
-				{#									</div>#}
-				{#								</div>#}
-				{#							</nav>#}
-				{#						</div>#}
-				{#					</article>#}
-				{#				</div>#}
 			</div>
 			<button class="modal-close is-large" aria-label="close"
 			        onclick='$("#modal-login").removeClass("is-active")'></button>
 		</div>
-	</div>
-	{#		<div class="login">#}
-	{#			<button type="button" class="btn btn-outline-dark">login</button>#}
-	{#			<button type="button" class="btn btn-dark">sign up</button>#}
-	{#		</div>#}
-	</div>
-	<div class="search">
-		<input type="search">
-		<button type="button" class="search-button">검색</button>
-	</div>
-	<div class="category">
-		<button type="button" class="btn btn-outline-warning">카테고리 1</button>
-		<button type="button" class="btn btn-outline-warning">카테고리 2</button>
+		</div>
+	</nav>
+
+	<div class="flexbox">
+{#		<div class="proj-title">#}
+{#			<img src="../static/title_logo.png" alt="logo">#}
+{#		</div>#}
+		<div class="search">
+			<h1>어떤 식물을</h1>
+			<h1>키우고 싶으신가요?</h1>
+			<div class="search-box">
+				<input type="text" placeholder="식물 이름을 입력하세요." required>
+			</div>
+		</div>
 	</div>
 
 
-	<div class="plant-list">
+		<div class="category">
+			<ul class="category_list">
+				<button type="button" class="btn btn-outline-warning">카테고리 1</button>
+				<button type="button" class="btn btn-outline-warning">카테고리 2</button>
+			</ul>
+		</div>
+
+		<div class="plant-list">
 		<ul class="plant-list-items" id="plant-box">
 			<div class="card plant-list-item" id="card-0">
-				<a href="">
+				<a href="/detail">
 					<img class="plant-img" src="{{ url_for('static',filename='banner.jpg') }}">
 				</a>
 				<h3>몬스테라 델리시오사</h3>
@@ -436,8 +504,9 @@
 		</ul>
 	</div>
 
-	<div class="more">
-		<button type="button" class="btn btn-primary btn-lg">더보기</button>
-	</div>
+		<div class="more">
+			<button type="button" class="btn btn-primary btn-lg">더보기</button>
+		</div>
+
 </body>
 </html>
