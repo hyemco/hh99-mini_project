@@ -14,7 +14,7 @@
               integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 	<!-- Font Awesome CSS -->
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-	<link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+	<link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet">
 	<!-- JS -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
@@ -27,435 +27,123 @@
 	<meta charset="UTF-8">
 	<title>Title</title>
 
-	<script>
-        // {% if msg %}
-            //     alert("{{ msg }}")
-            // {% endif %}
-        function login() {
-            let user_id = $("#input-user_id").val()
-            let password = $("#input-password").val()
+	<script src="../static/js/main.js" defer></script>
+	<link rel="stylesheet" href="../static/css/main.css">
 
-            if (user_id == "") {
-                $("#help-id-login").text("아이디를 입력해주세요.")
-                $("#input-user_id").focus()
-                return;
-            } else {
-                $("#help-id-login").text("")
-            }
-
-            if (password == "") {
-                $("#help-password-login").text("비밀번호를 입력해주세요.")
-                $("#input-password").focus()
-                return;
-            } else {
-                $("#help-password-login").text("")
-            }
-
-            $.ajax({
-                type: "POST",
-                url: "/login",
-                data: {
-                    user_id_give: user_id,
-                    password_give: password
-                },
-                success: function (response) {
-                    if (response['result'] == 'success') {
-                        $.cookie('mytoken', response['token'], {path: '/'});
-                        window.location.replace("/")
-                    } else {
-                        alert(response['msg'])
-                    }
-                }
-            });
-        }
-
-        function sign_up() {
-            let user_id = $("#input-user_id").val()
-            let password = $("#input-password").val()
-            let password2 = $("#input-password2").val()
-            console.log(user_id, password, password2)
-
-
-            if ($("#help-id").hasClass("is-danger")) {
-                alert("아이디를 다시 확인해주세요.")
-                return;
-            } else if (!$("#help-id").hasClass("is-success")) {
-                alert("아이디 중복확인을 해주세요.")
-                return;
-            }
-
-            if (password == "") {
-                $("#help-password").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-password").focus()
-                return;
-            } else if (!is_password(password)) {
-                $("#help-password").text("비밀번호의 형식을 확인해주세요. 영문과 숫자 필수 포함, 특수문자(!@#$%^&*) 사용가능 8-20자").removeClass("is-safe").addClass("is-danger")
-                $("#input-password").focus()
-                return
-            } else {
-                $("#help-password").text("사용할 수 있는 비밀번호입니다.").removeClass("is-danger").addClass("is-success")
-            }
-            if (password2 == "") {
-                $("#help-password2").text("비밀번호를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-password2").focus()
-                return;
-            } else if (password2 != password) {
-                $("#help-password2").text("비밀번호가 일치하지 않습니다.").removeClass("is-safe").addClass("is-danger")
-                $("#input-password2").focus()
-                return;
-            } else {
-                $("#help-password2").text("비밀번호가 일치합니다.").removeClass("is-danger").addClass("is-success")
-            }
-            $.ajax({
-                type: "POST",
-                url: "/sign_up/save",
-                data: {
-                    user_id_give: user_id,
-                    password_give: password
-                },
-                success: function (response) {
-                    alert("회원가입을 축하드립니다!")
-                    toggle_sign_up()
-                }
-            });
-        }
-
-        function toggle_sign_up() {
-            $("#sign-up-box").toggleClass("is-hidden")
-            $("#div-sign-in-or-up").toggleClass("is-hidden")
-            $("#btn-check-dup").toggleClass("is-hidden")
-            $("#help-id").toggleClass("is-hidden")
-            $("#help-password").toggleClass("is-hidden")
-            $("#help-password2").toggleClass("is-hidden")
-        }
-
-        function is_nickname(asValue) {
-            var regExp = /^(?=.*[a-zA-Z])[-a-zA-Z0-9_.]{4,10}$/;
-            return regExp.test(asValue);
-        }
-
-        function is_password(asValue) {
-            var regExp = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z!@#$%^&*]{8,20}$/;
-            return regExp.test(asValue);
-        }
-
-        function check_dup() {
-            let user_id = $("#input-user_id").val()
-            console.log(user_id)
-            if (user_id == "") {
-                $("#help-id").text("아이디를 입력해주세요.").removeClass("is-safe").addClass("is-danger")
-                $("#input-user_id").focus()
-                return;
-            }
-            if (!is_nickname(user_id)) {
-                $("#help-id").text("아이디의 형식을 확인해주세요. 영문과 숫자, 일부 특수문자(._-) 사용 가능. 2-10자 길이").removeClass("is-safe").addClass("is-danger")
-                $("#input-user_id").focus()
-                return;
-            }
-            $("#help-id").addClass("is-loading")
-            $.ajax({
-                type: "POST",
-                url: "/sign_up/check_dup",
-                data: {
-                    user_id_give: user_id
-                },
-                success: function (response) {
-
-                    if (response["exists"]) {
-                        $("#help-id").text("이미 존재하는 아이디입니다.").removeClass("is-safe").addClass("is-danger")
-                        $("#input-user_id").focus()
-                    } else {
-                        $("#help-id").text("사용할 수 있는 아이디입니다.").removeClass("is-danger").addClass("is-success")
-                    }
-                    $("#help-id").removeClass("is-loading")
-                }
-            });
-        }
-
-        {#function make_card(i, plant) {#}
-        {#    let temp_html = `<div class="card plant-list-item" id="card-${i}">#}
-		{#		<a href="">#}
-		{#			<img class="plant-img" src="{{ url_for('static',filename='banner.jpg') }}">#}
-		{#		</a>#}
-		{#		<h3>${plant.title}</h3>#}
-		{#	</div>`;#}
-        {#    $('#plant-box').append(temp_html)#}
-        {#}#}
-	</script>
-
-	<style>
-        * {
-            font-family: 'Noto Sans KR', sans-serif;
-        }
-
-        h3 {
-            font-size: 1rem;
-
-        }
-
-        .input {
-            border-radius: 30px;
-        }
-
-        .card {
-            width: 250px;
-
-            display: flex;
-            /*justify-content: space-between;*/
-            margin: 0 60px;
-            margin-top: 65px;
-            flex-wrap: wrap;
-            float: left;
-        }
-
-        .category {
-            margin-top: 30px;
-        }
-
-        .category_list {
-	        margin: 0;
-	        padding: 0;
-        }
-
-        .more {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-
-            margin: 0 30px;
-            margin-top: 35px;
-        }
-
-        .plant-list {
-	        display: flex;
-	        flex-wrap: wrap;
-	        margin-top: 20px;
-        }
-
-        .plant-list-items {
-	        list-style: none;
-        }
-
-        .plant-list-item {
-	        margin: 0 25px 30px 0;
-	        height: 290px;
-            width: 230px;
-	        border: transparent;
-        }
-
-        .plant-img {
-	        height: 250px;
-            width: 230px;
-	        margin-bottom: 12px;
-        }
-
-        .flexbox {
-	        background-color: #F5F1EE;
-            {#background-image: url("{{ url_for('static', filename='banner.jpg') }}");#}
-            background-size: 100% 400px;
-            width: 100%;
-            height: 400px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .search {
-            margin: 20px;
-        }
-
-        .search > h1 {
-            color: black;
-            margin-bottom: 15px;
-            font-size: 2rem;
-            text-align: center;
-        }
-
-        .search > div:after {
-            content: "";
-            background: black;
-            width: 4px;
-            height: 20px;
-            position: absolute;
-            top: 40px;
-            right: 2px;
-            transform: rotate(135deg);
-        }
-
-        .search > div > input {
-            color: black;
-            font-size: 16px;
-            background: transparent;
-            width: 40px;
-            height: 40px;
-            padding: 10px;
-            border: solid 3px black;
-            outline: none;
-            border-radius: 35px;
-            transition: width 0.5s;
-        }
-
-        .search > div > input::placeholder {
-            color: black;
-            opacity: 0;
-            transition: opacity 150ms ease-out;
-        }
-
-        .search > div > input:focus::placeholder {
-            opacity: 1;
-        }
-
-        .search > div > input:focus,
-        .search > div > input:not(:placeholder-shown) {
-            width: 250px;
-        }
-
-        .search-box {
-            position: absolute;
-			top: 45%;
-            left: 50%;
-            transform: translate(-50%, 50%);
-            height: 40px;
-            border-radius: 40px;
-            padding: 10px;
-        }
-
-        .contain {
-            width: 1450px;
-            margin: 0 auto;
-        }
-
-        .main_bg img {
-            height: 100vh;
-            width: 100%;
-            display: block;
-            margin: 0 auto;
-            object-fit: cover;
-            opacity: 0.9;
-            z-index: 0;
-        }
-
-        .login-btn {
-            display: inline-block;
-
-            float: right;
-        }
-	</style>
-
-
+</head>
 <body>
-	<nav class="section">
+	<nav>
 		<div class="contain">
 			<a href="/" class="logo">
-				<img src="../static/logo.png" alt="logo" style="width: 30px">
-				<span class="logo_span">SHAREGARDEN</span>
+				<img src="../static/img/logo.png" alt="logo">
+				<span class="logo_span">SHARE<br>GARDEN</span>
 			</a>
 			<div class="login-btn">
-			<button class="level-item button is-sparta is-outlined" onclick='$("#modal-login").addClass("is-active")'>Login</button>
-			<div class="modal" id="modal-login">
-				<div class="modal-background" onclick='$("#modal-login").removeClass("is-active")'></div>
-				<div class="modal-content">
-					<div class="container">
-						<div class="box" style="max-width: 480px;margin:auto">
-							<article class="media">
-								<div class="media-content">
-									<div class="content">
-										<div class="field has-addons">
-											<div class="control has-icons-left" style="width:100%">
-												<input id="input-user_id" class="input" type="text"
-												       placeholder="아이디"
-												       onblur="check_dup()">
-												<span class="icon is-small is-left"><i
-													class="fa fa-user"></i></span>
-											</div>
-										</div>
-										<p id="help-id" class="help is-hidden">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력
-											가능합니다.</p>
-										<p id="help-id-login" class="help is-danger"></p>
-
-										<div class="field">
-											<div class="control has-icons-left">
-												<input id="input-password" class="input" type="password"
-												       placeholder="비밀번호">
-												<span class="icon is-small is-left"><i
-													class="fa fa-lock"></i></span>
-											</div>
-											<p id="help-password" class="help is-hidden">영문과 숫자 조합의 8-20자의 비밀번호를
-												설정해주세요.
-												특수문자(!@#$%^&*)도 사용
-												가능합니다.</p>
-										</div>
-
-
-									</div>
-									<div id="div-sign-in-or-up" class="has-text-centered">
-										<nav class="level is-mobile btn-sign-in-or-up">
-											<button class="level-item button is-sparta " onclick="login()">
-												로그인
-											</button>
-										</nav>
-										{#									<hr>#}
-										{#									<h4 class="mb-3">아직 회원이 아니라면</h4>#}
-										<nav class="level is-mobile btn-sign-in-or-up">
-											<button class="level-item button is-sparta is-outlined"
-											        onclick="toggle_sign_up()">
-												회원가입하기
-											</button>
-										</nav>
-									</div>
-
-									<div id="sign-up-box" class="is-hidden">
-										<div class="mb-5">
-											<div class="field">
+				<button class="level-item button is-sparta is-outlined" onclick='$("#modal-login").addClass("is-active")'>
+					Login
+				</button>
+				<div class="modal" id="modal-login">
+					<div class="modal-background" onclick='$("#modal-login").removeClass("is-active")'></div>
+					<div class="modal-content">
+						<div class="container">
+							<div class="box" style="max-width: 480px;margin:auto">
+								<article class="media">
+									<div class="media-content">
+										<div class="content">
+											<div class="field has-addons">
 												<div class="control has-icons-left" style="width:100%">
-													<input id="input-password2" class="input" type="password"
-													       placeholder="비밀번호 재입력">
+													<input id="input-user_id" class="input" type="text"
+													       placeholder="아이디"
+													       onblur="check_dup()">
+													<span class="icon is-small is-left"><i
+														class="fa fa-user"></i></span>
+												</div>
+											</div>
+											<p id="help-id" class="help is-hidden">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력
+												가능합니다.</p>
+											<p id="help-id-login" class="help is-danger"></p>
+
+											<div class="field">
+												<div class="control has-icons-left">
+													<input id="input-password" class="input" type="password"
+													       placeholder="비밀번호">
 													<span class="icon is-small is-left"><i
 														class="fa fa-lock"></i></span>
 												</div>
-												<p id="help-password2" class="help is-hidden">비밀번호를 다시 한 번
-													입력해주세요.</p>
-
+												<p id="help-password" class="help is-hidden">영문과 숫자 조합의 8-20자의 비밀번호를
+													설정해주세요.
+													특수문자(!@#$%^&*)도 사용
+													가능합니다.</p>
 											</div>
+
+
 										</div>
-										<nav class="level is-mobile">
-											<button class="level-item button is-sparta" onclick="sign_up()">
-												회원가입
-											</button>
-											<button class="level-item button is-sparta is-outlined"
-											        onclick="toggle_sign_up()">
-												취소
-											</button>
-										</nav>
+										<div id="div-sign-in-or-up" class="has-text-centered">
+											<nav class="level is-mobile btn-sign-in-or-up">
+												<button class="level-item button is-sparta " onclick="login()">
+													로그인
+												</button>
+											</nav>
+											{#									<hr>#}
+											{#									<h4 class="mb-3">아직 회원이 아니라면</h4>#}
+											<nav class="level is-mobile btn-sign-in-or-up">
+												<button class="level-item button is-sparta is-outlined"
+												        onclick="toggle_sign_up()">
+													회원가입하기
+												</button>
+											</nav>
+										</div>
+
+										<div id="sign-up-box" class="is-hidden">
+											<div class="mb-5">
+												<div class="field">
+													<div class="control has-icons-left" style="width:100%">
+														<input id="input-password2" class="input" type="password"
+														       placeholder="비밀번호 재입력">
+														<span class="icon is-small is-left"><i
+															class="fa fa-lock"></i></span>
+													</div>
+													<p id="help-password2" class="help is-hidden">비밀번호를 다시 한 번
+														입력해주세요.</p>
+
+												</div>
+											</div>
+											<nav class="level is-mobile">
+												<button class="level-item button is-sparta" onclick="sign_up()">
+													회원가입
+												</button>
+												<button class="level-item button is-sparta is-outlined"
+												        onclick="toggle_sign_up()">
+													취소
+												</button>
+											</nav>
+										</div>
 									</div>
-								</div>
+							</div>
+							</article>
 						</div>
-						</article>
 					</div>
 				</div>
+				</div>
+				<button class="modal-close is-large" aria-label="close"
+				        onclick='$("#modal-login").removeClass("is-active")'></button>
 			</div>
-			<button class="modal-close is-large" aria-label="close"
-			        onclick='$("#modal-login").removeClass("is-active")'></button>
-		</div>
 		</div>
 	</nav>
 
-	<div class="flexbox">
-{#		<div class="proj-title">#}
-{#			<img src="../static/title_logo.png" alt="logo">#}
-{#		</div>#}
-		<div class="search">
-			<h1>어떤 식물을</h1>
-			<h1>키우고 싶으신가요?</h1>
-			<div class="search-box">
-				<input type="text" placeholder="식물 이름을 입력하세요." required>
+	<section class="banner">
+		<div class="flexbox">
+			<div class="search">
+				<h1>어떤 식물을</h1>
+				<h1>키우고 싶으신가요?</h1>
+				<div class="search-box">
+					<input type="text" placeholder="식물 이름을 입력하세요." required>
+				</div>
 			</div>
 		</div>
-	</div>
+	</section>
 
-
+	<section class="plant-list-section">
 		<div class="category">
 			<ul class="category_list">
 				<button type="button" class="btn btn-outline-warning">카테고리 1</button>
@@ -463,8 +151,7 @@
 			</ul>
 		</div>
 
-		<div class="plant-list">
-		<ul class="plant-list-items" id="plant-box">
+		<div class="plant-list" id="plant-box">
 			<div class="card plant-list-item" id="card-0">
 				<a href="/detail">
 					<img class="plant-img" src="{{ url_for('static',filename='banner.jpg') }}">
@@ -501,12 +188,14 @@
 				</a>
 				<h3>몬스테라 델리시오사</h3>
 			</div>
-		</ul>
-	</div>
+		</div>
+	</section>
+
 
 		<div class="more">
 			<button type="button" class="btn btn-primary btn-lg">더보기</button>
 		</div>
+
 
 </body>
 </html>
