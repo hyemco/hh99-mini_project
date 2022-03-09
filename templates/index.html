@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<!-- Webpage Title -->
-	<title>Home | SWEETER</title>
+	<title>Log In | SHAREGARDEN</title>
 
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
@@ -11,10 +11,12 @@
 	<!-- Bulma CSS -->
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
 	<!-- Font Awesome CSS -->
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<link href="{{ url_for('static', filename='main.css') }}" rel="stylesheet">
+
 	<!-- JS -->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
@@ -22,115 +24,53 @@
 	<!-- Gogle font -->
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap" rel="stylesheet"
+	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap" rel="stylesheet">
 
-	<meta charset="UTF-8">
-	<title>Title</title>
 
-	<script src="../static/js/main.js" defer></script>
-	<link rel="stylesheet" href="../static/css/main.css">
+        <script>
+	        // 로딩되자마자 리스트 보여주기
+	        $(document).ready(function () {
+				showLists()
+	        });
 
+            // 식물 리스트 보여주기
+            function showLists() {
+                $.ajax({
+                    type: "GET",
+                    url: "/listing",
+                    data: {},
+                    success: function (response) {
+                        let plant_card = response['plant_card']
+	                    for (let i = 0; i < plant_card.length; i++) {
+                            let card = plant_card[i]
+		                    let temp_html = `<div class="card plant-list-item" id="${card['_id']}">
+											    <a href="/detail">
+												    <img class="plant-img" src="${card['image']}">
+											    </a>
+											    <h3 class="plant-title">${card['title']}</h3>
+										    </div>`
+		                    $('#plant-box').append(temp_html)
+                        }
+                    }
+                })
+            }
+        </script>
 </head>
 <body>
-	<nav>
-		<div class="contain">
-			<a href="/" class="logo">
-				<img src="../static/img/logo.png" alt="logo">
-				<span class="logo_span">SHARE<br>GARDEN</span>
-			</a>
-			<div class="login-btn">
-				<button class="level-item button is-sparta is-outlined" onclick='$("#modal-login").addClass("is-active")'>
-					Login
-				</button>
-				<div class="modal" id="modal-login">
-					<div class="modal-background" onclick='$("#modal-login").removeClass("is-active")'></div>
-					<div class="modal-content">
-						<div class="container">
-							<div class="box" style="max-width: 480px;margin:auto">
-								<article class="media">
-									<div class="media-content">
-										<div class="content">
-											<div class="field has-addons">
-												<div class="control has-icons-left" style="width:100%">
-													<input id="input-user_id" class="input" type="text"
-													       placeholder="아이디"
-													       onblur="check_dup()">
-													<span class="icon is-small is-left"><i
-														class="fa fa-user"></i></span>
-												</div>
-											</div>
-											<p id="help-id" class="help is-hidden">아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력
-												가능합니다.</p>
-											<p id="help-id-login" class="help is-danger"></p>
+    <!---------------------- navbar ---------------------->
+    <nav>
+	    <div class="contain">
+		    <a href="/" class="logo">
+			    <img src="../static/img/logo.png" alt="logo">
+			    <span class="logo_span">SHARE<br>GARDEN</span>
+		    </a>
+		    <div class="logout-btn">
+			    <button class="level-item button is-sparta is-outlined">Logout</button>
+		    </div>
+	    </div>
+    </nav>
 
-											<div class="field">
-												<div class="control has-icons-left">
-													<input id="input-password" class="input" type="password"
-													       placeholder="비밀번호">
-													<span class="icon is-small is-left"><i
-														class="fa fa-lock"></i></span>
-												</div>
-												<p id="help-password" class="help is-hidden">영문과 숫자 조합의 8-20자의 비밀번호를
-													설정해주세요.
-													특수문자(!@#$%^&*)도 사용
-													가능합니다.</p>
-											</div>
-
-
-										</div>
-										<div id="div-sign-in-or-up" class="has-text-centered">
-											<nav class="level is-mobile btn-sign-in-or-up">
-												<button class="level-item button is-sparta " onclick="login()">
-													로그인
-												</button>
-											</nav>
-											{#									<hr>#}
-											{#									<h4 class="mb-3">아직 회원이 아니라면</h4>#}
-											<nav class="level is-mobile btn-sign-in-or-up">
-												<button class="level-item button is-sparta is-outlined"
-												        onclick="toggle_sign_up()">
-													회원가입하기
-												</button>
-											</nav>
-										</div>
-
-										<div id="sign-up-box" class="is-hidden">
-											<div class="mb-5">
-												<div class="field">
-													<div class="control has-icons-left" style="width:100%">
-														<input id="input-password2" class="input" type="password"
-														       placeholder="비밀번호 재입력">
-														<span class="icon is-small is-left"><i
-															class="fa fa-lock"></i></span>
-													</div>
-													<p id="help-password2" class="help is-hidden">비밀번호를 다시 한 번
-														입력해주세요.</p>
-
-												</div>
-											</div>
-											<nav class="level is-mobile">
-												<button class="level-item button is-sparta" onclick="sign_up()">
-													회원가입
-												</button>
-												<button class="level-item button is-sparta is-outlined"
-												        onclick="toggle_sign_up()">
-													취소
-												</button>
-											</nav>
-										</div>
-									</div>
-							</div>
-							</article>
-						</div>
-					</div>
-				</div>
-				</div>
-				<button class="modal-close is-large" aria-label="close"
-				        onclick='$("#modal-login").removeClass("is-active")'></button>
-			</div>
-		</div>
-	</nav>
-
+	<!---------------------- banner ---------------------->
 	<section class="banner">
 		<div class="flexbox">
 			<div class="search">
@@ -143,59 +83,16 @@
 		</div>
 	</section>
 
-	<section class="plant-list-section">
-		<div class="category">
-			<ul class="category_list">
-				<button type="button" class="btn btn-outline-warning">카테고리 1</button>
-				<button type="button" class="btn btn-outline-warning">카테고리 2</button>
-			</ul>
-		</div>
+	<!---------------------- category & list ---------------------->
+    <section class="plant-list-section">
+	    <div class="category">
+		    <ul class="category_list">
+			    <button type="button" class="btn btn-outline-warning">카테고리 1</button>
+			    <button type="button" class="btn btn-outline-warning">카테고리 2</button>
+		    </ul>
+	    </div>
 
-		<div class="plant-list" id="plant-box">
-			<div class="card plant-list-item" id="card-0">
-				<a href="/detail">
-					<img class="plant-img" src="{{ url_for('static',filename='banner.jpg') }}">
-				</a>
-				<h3>몬스테라 델리시오사</h3>
-			</div>
-			<div class="card plant-list-item" id="card-0">
-				<a href="">
-					<img class="plant-img" src="{{ url_for('static',filename='banner.jpg') }}">
-				</a>
-				<h3>몬스테라 델리시오사</h3>
-			</div>
-			<div class="card plant-list-item" id="card-0">
-				<a href="">
-					<img class="plant-img" src="{{ url_for('static',filename='banner.jpg') }}">
-				</a>
-				<h3>몬스테라 델리시오사</h3>
-			</div>
-			<div class="card plant-list-item" id="card-0">
-				<a href="">
-					<img class="plant-img" src="{{ url_for('static',filename='banner.jpg') }}">
-				</a>
-				<h3>몬스테라 델리시오사</h3>
-			</div>
-			<div class="card plant-list-item" id="card-0">
-				<a href="">
-					<img class="plant-img" src="{{ url_for('static',filename='banner.jpg') }}">
-				</a>
-				<h3>몬스테라 델리시오사</h3>
-			</div>
-			<div class="card plant-list-item" id="card-0">
-				<a href="">
-					<img class="plant-img" src="{{ url_for('static',filename='banner.jpg') }}">
-				</a>
-				<h3>몬스테라 델리시오사</h3>
-			</div>
-		</div>
-	</section>
-
-
-		<div class="more">
-			<button type="button" class="btn btn-primary btn-lg">더보기</button>
-		</div>
-
-
+	    <div class="plant-list" id="plant-box"></div>
+    </section>
 </body>
 </html>
