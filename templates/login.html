@@ -228,6 +228,7 @@
         <div class="box" style="max-width: 480px;margin:auto">
             <article class="media">
                 <div class="media-content">
+                    <form>
                     <div class="content">
                         <div class="field has-addons">
                             <div class="control has-icons-left" style="width:100%">
@@ -235,7 +236,7 @@
                                 <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
                             </div>
                             <div id="btn-check-dup" class="control is-hidden">
-                                <button class="button is-sparta" onclick="check_dup()">중복확인</button>
+                                <button class="button is-sparta" onclick="check_dup()" type="button">중복확인</button>
                             </div>
 
                         </div>
@@ -266,7 +267,7 @@
                         <nav class="level is-mobile">
 
                             <button class="level-item button is-sparta is-outlined"
-                                    onclick="toggle_sign_up()">
+                                    onclick="toggle_sign_up()" type="reset">
                                 회원가입하기
                             </button>
                         </nav>
@@ -289,7 +290,7 @@
                             <button class="level-item button is-sparta" onclick="sign_up()">
                                 회원가입
                             </button>
-                            <button class="level-item button is-sparta is-outlined" onclick="toggle_sign_up()">
+                            <button class="level-item button is-sparta is-outlined" onclick="toggle_sign_up()" type="reset">
                                 취소
                             </button>
                         </nav>
@@ -297,6 +298,7 @@
 
 
                 </div>
+                </form>
             </article>
         </div>
 
