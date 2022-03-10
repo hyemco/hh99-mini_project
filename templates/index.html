@@ -29,6 +29,12 @@
 
     <!---------------------- 검색창 인식 (띄어쓰기 인식못함ㅠㅠ) ---------------------->
     <script>
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃했습니다.')
+            window.location.href = "/login"
+        }
+
         //검색용 식물 이름 리스트 만들기
         let list = {{ plant_card|tojson }};
         let card_list = [];
@@ -41,6 +47,9 @@
 
         function search() {
             let search = $("#input-word").val()
+            var regex = / /gi;
+            search.replace(regex, '');
+            console.log(search)
             if (search == "") {
                         // 빈 문자열이면 얼럿
                 alert("검색어를 입력해주세요.")
@@ -50,7 +59,6 @@
                         // 리스트에있으면 그위치로 이동... 근데 해당하는 카드만 나타나게하고싶긴함
                 $(`#plant-${search}`).addClass('highlight').siblings().removeClass('highlight');
                 $(`#plant-${search}`)[0].scrollIntoView();
-
             } else {
                         // 리스트에 없으면 식물찾을수없습니다 라고
                 alert("식물을 찾을 수 없습니다.")
@@ -61,17 +69,17 @@
 </head>
 <body>
     <!---------------------- navbar ---------------------->
-    <nav>
-	    <div class="contain">
-		    <a href="/" class="logo">
-			    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
-			    <span class="logo_span">SHARE<br>GARDEN</span>
-		    </a>
-{#		    <div class="logout-btn">#}
-{#			    <button class="level-item button is-sparta is-outlined">Logout</button>#}
-{#		    </div>#}
-	    </div>
-    </nav>
+	<nav>
+		<div class="contain">
+			<a href="/" class="logo">
+				<img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
+				<span class="logo_span">SHARE<br>GARDEN</span>
+			</a>
+			<div class="logout-btn">
+				<button onclick="sign_out()" class="level-item button is-sparta is-outlined">Logout</button>
+			</div>
+		</div>
+	</nav>
 
 	<!---------------------- banner ---------------------->
 	<section class="banner">

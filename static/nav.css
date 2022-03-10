@@ -19,22 +19,26 @@ nav {
   font-size: 18px;
   border-bottom: 1px solid #f1f3f5;
 }
+
 nav .contain {
   height: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .logo{
   display: flex;
   justify-content: center;
   align-items: center;
 }
+
 .logo img {
   width: 40px;
   height: 40px;
   margin-right: 10px;
 }
+
 .logo_span {
   text-align: center;
   font-size: 16px;

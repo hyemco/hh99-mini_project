@@ -16,7 +16,6 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('3.35.17.197', 27017, username="test", password="test")
 
 # 로컬호스트용 mongodb
-# client = MongoClient('localhost', 27017)
 db = client.dbmini_project
 
 ####### 페이지 이동
@@ -40,14 +39,15 @@ def login():
     return render_template('login.html', msg=msg)
 
 # 상세 페이지
-@app.route('/detail/<title>')
-def detail(title):
+@app.route('/detail/<keyword>')
+def detail(keyword):
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        plant = db.plants.find_one({"title": title}, {"_id": False})
-        details = db.plant_detail.find_one({"title": title}, {"_id": False})
-        return render_template('detail.html', plant=plant, details=details, target=title)
+        plant = db.plants.find_one({"title": keyword}, {"_id": False})
+        details = db.plant_detail.find_one({"title": keyword}, {"_id": False})
+        post = db.posts.find_one({"target": keyword}, {"_id": False})
+        return render_template('detail.html', plant=plant, details=details, post=post ,target=keyword)
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
@@ -112,6 +112,59 @@ def get_details():
     return jsonify({'detail_box': detail_box})
 
 
+# API - 댓글 작성하기
+@app.route('/posting', methods=['POST'])
+def posting():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+
+        user_info = db.users.find_one({"username": payload["id"]})
+        comment_receive = request.form["comment_give"]
+        target_receive = request.form["target_give"]
+        date_receive = request.form["date_give"]
+
+        doc = {
+            "username": user_info["username"],
+            "comment": comment_receive,
+            "target": target_receive,
+            "date": date_receive
+        }
+        db.posts.insert_one(doc)
+        return jsonify({"result": "success", 'msg': '등록 완료'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
+# API - 댓글 나타내기
+@app.route("/get_posts/", methods=['GET'])
+def get_posts():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        # 해당 페이지 식물 이름(target) 받아오기
+        target_receive = request.args.get("target_give")
+        # db에서 해당 페이지의 리뷰를 찾아 15개까지 보여줌
+        posts = list(db.posts.find({"target": target_receive}).sort("date", -1).limit(15))
+        for post in posts:
+            post["_id"] = str(post["_id"])
+        return jsonify({"result": "success", "msg": "포스팅을 가져왔습니다.", "posts": posts})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
+# API - 댓글 삭제
+@app.route('/delete', methods=['POST'])
+def delete_star():
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        comment_receive = request.form['comment_give']
+        # 받아온 comment 값과 일치하는 딕셔너리 삭제
+        db.posts.delete_one({'comment': comment_receive})
+        return jsonify({'msg': '삭제되었습니다.!'})
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
 # # 상세 페이지 크롤링
 # import requests
