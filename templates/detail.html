@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Webpage Title -->
+    <title>SWEETER - {{ plant.title }}</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <!-- Font Awesome CSS -->
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='nav.css') }}" rel="stylesheet"
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!-- Gogle font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap" rel="stylesheet">
+    <!-- google font CSS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle&family=Single+Day&display=swap" rel="stylesheet">
+
+
+    <style>
+
+
+        section {
+            width: 1600px;
+            margin: 50px auto;
+        }
+
+        .main_content {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            margin: auto;
+            padding: 0 100px;
+        }
+
+        .plant_img {
+            width: 600px;
+            height: 710px;
+        }
+
+        .plant_detail {
+            width: 750px;
+            margin-left: 10px;
+        }
+
+        #title h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            line-height: 1.53;
+            letter-spacing: -0.9px;
+            margin-bottom: 20px;
+        }
+
+        #title h2 {
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: normal;
+            color: #00b564;
+            margin-bottom: 5px;
+        }
+
+        #title h3 {
+            font-size: 1.25rem;
+            font-weight: normal;
+            line-height: 1.64;
+            letter-spacing: -0.42px;
+            color: #333;
+            margin-bottom: 50px;
+        }
+
+        .table_item_flex {
+            display: flex;
+            border-top: solid 1px #ccc
+        }
+
+        .table_item_flex li {
+            width: 367.5px;
+            padding: 20px;
+        }
+
+        .table_item_flex img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            display: inline-block;
+            margin-bottom: 13px;
+        }
+
+        .table_item_flex h1 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: -0.42px;
+            margin-bottom: 4px;
+        }
+
+        .table_item_flex h2 {
+            font-size: 1rem;
+            font-weight: normal;
+            line-height: 1.64;
+            letter-spacing: -0.42px;
+            color: #333;
+        }
+
+        {##### comment css #####}
+        .wrap {
+            width: 1000px;
+            margin: auto;
+        }
+
+        .container {
+            margin-left: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .posting-box {
+            width: 500px;
+            margin-top: 20px;
+        }
+
+        .description {
+            font-family: 'Dongle', sans-serif;
+            font-size: 5rem;
+        }
+
+        #collapseExample {
+            width: 600px;
+        }
+
+        .comment h1 {
+            padding-top: 5px;
+            font-size: 13px;
+            margin-left: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .comment input {
+            width: 550px;
+            height: 30px;
+            font-size: 12px;
+            margin-left: 10px;
+            padding-left: 10px;
+            border-radius: 8px;
+            outline: none;
+            background-color: #efefef;
+        }
+
+        .comment button {
+            width: 60px;
+            height: 30px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        /*.review {*/
+        /*    width: 650px;*/
+        /*    margin-left: 100px;*/
+        /*    border-radius: 8px;*/
+        /*    !*border: solid 1px black;*!*/
+        /*    background-color: #eee;*/
+        /*}*/
+
+        /*.review ul {*/
+        /*    width: 600px;*/
+        /*    height: 35px;*/
+        /*    margin-top: 10px;*/
+        /*    margin-left: 25px;*/
+        /*    border-top: solid 1px #aaa;*/
+
+
+        /*}*/
+
+        /*.review li {*/
+        /*    font-size: 14px;*/
+        /*    margin-top: 15px;*/
+        /*    !*border-top: solid 1px #aaa;*!*/
+        /*    !*border: solid 1px black;*!*/
+        /*}*/
+
+
+    </style>
+
+    <script>
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃했습니다.')
+            window.location.href = "/login"
+        }
+
+        let target = "{{ target }}"
+        $(document).ready(function () {
+            get_posts()
+        })
+
+        // 댓글 작성하기
+        function posting() {
+            let comment = $('#comment').val()
+            let target = "{{ plant.title }}"
+            let today = new Date().toISOString();
+
+            if (comment == "") {
+                alert("내용을 입력해주세요")
+            }
+            $.ajax({
+                type: "POST",
+                url: "/posting",
+                data: {
+                    comment_give: comment,
+                    target_give: target,
+                    date_give: today
+                },
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.href = "/detail/{{ plant.title }}"
+                }
+            })
+        }
+
+        // 댓글 나타내기
+        function get_posts() {
+            $.ajax({
+                type: "GET",
+                url: `/get_posts?target_give=${target}`,
+                data: {},
+                success: function (response) {
+                    // 해당 페이지의 식물과 관련된 데이터만 받아왔음
+                    if (response["result"] == "success") {
+                        {#console.log(response["posts"])#}
+                        let posts = response["posts"]
+                        for (let i = 0; i < posts.length; i++) {
+                            let post = posts[i]
+
+                            let temp_html = `<div class="card mb-3">
+									            <div class="card-body">
+									                <h5 class="card-title">${post['username']}</h5>
+									                <p class="card-text">${post['comment']}</p>
+									            </div>
+												<div class="comment_delete">
+                                                    <a href="#" class="delete" onclick="deleteStar('${post['comment']}')">삭제</a>
+                                                </div>
+									       </div>`
+                            $("#card-box").append(temp_html)
+                        }
+                    }
+                }
+            })
+        }
+
+        // 댓글 삭제 - comment  값 불러와서 일치하면 삭제
+        function deleteStar(comment) {
+            $.ajax({
+                type: 'POST',
+                url: '/delete',
+                data: {comment_give: comment},
+                success: function (response) {
+                    alert(response['msg']);
+                    window.location.reload()
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<!---------------------- navbar ---------------------->
+<nav>
+    <div class="contain">
+        <a href="/" class="logo">
+            <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
+            <span class="logo_span">SHARE<br>GARDEN</span>
+        </a>
+        <div class="logout-btn">
+            <button onclick="sign_out()" class="level-item button is-sparta is-outlined">Logout</button>
+        </div>
+    </div>
+</nav>
+
+<!---------------------- main ---------------------->
+<section id="main">
+    <div class="main_content">
+        <div class="img_box">
+            <img src="{{ plant.image }}" class="plant_img">
+        </div>
+        <div class="plant_detail">
+            <div id="title">
+                <h2>{{ details.eng_title }}</h2>
+                <h1>{{ plant.title }}</h1>
+                <h3>{{ details.desc }}</h3>
+            </div>
+            <div class="itme">
+                <ul class="table_item">
+                    <div class="table_item_flex">
+                        <li style="border-right: solid 1px #ccc">
+                            <img src="{{ details.sub_img_1 }}" alt="">
+                            <h1>{{ details.sub_title_1 }}</h1>
+                            <h2>{{ details.sub_desc_1 }}</h2>
+                        </li>
+                        <li>
+                            <img src="{{ details.sub_img_2 }}" alt="">
+                            <h1>{{ details.sub_title_2 }}</h1>
+                            <h2>{{ details.sub_desc_2 }}</h2>
+                        </li>
+                    </div>
+                    <div class="table_item_flex" style="border-bottom: solid 1px #ccc">
+                        <li style="border-right: solid 1px #ccc">
+                            <img src="{{ details.sub_img_3 }}" alt="">
+                            <h1>{{ details.sub_title_3 }}</h1>
+                            <h2>{{ details.sub_desc_3 }}</h2>
+                        </li>
+                        <li>
+                            <img src="{{ details.sub_img_4 }}" alt="">
+                            <h1>{{ details.sub_title_4 }}</h1>
+                            <h2>{{ details.sub_desc_4 }}</h2>
+                        </li>
+                    </div>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr>
+<!---------------------- comment ---------------------->
+<main class="main_wrap">
+    <div class="wrap">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <div class="description">
+                    여러분의 꿀팁이 필요해요!
+                </div>
+                <div class="comment_box">
+                    <p>
+                        <a class="level-item button is-sparta btn btn-success" data-toggle="collapse"
+                           href="#collapseExample" role="button"
+                           aria-expanded="false" aria-controls="collapseExample">
+                            꿀팁 등록하기
+                        </a>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                        <div class="card card-body">
+                            <div class="posting-box">
+                                <div class="form-group">
+                            <textarea class="form-control" id="comment" rows="3"
+                                      placeholder="내용 입력"></textarea>
+                                </div>
+                                <button onclick="posting()" type="button" class="btn btn-success">저장하기</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="card-box"></div>
+    </div>
+</main>
+</body>
+</html>

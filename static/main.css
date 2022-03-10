@@ -1,0 +1,174 @@
+@import './nav.css';
+
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+/******* 로그인/회원가입 css *******/
+.help {
+    color: gray;
+}
+
+.is-sparta {
+    color: #00B463 !important;
+}
+
+.button.is-sparta {
+    background-color: #00B463;
+    border-color: transparent;
+    color: #fff !important;
+}
+
+.button.is-sparta.is-outlined {
+    background-color: transparent;
+    border-color: gray;
+    color: black !important;
+}
+
+.input {
+    border-radius: 30px;
+}
+
+input::-webkit-calendar-picker-indicator {
+    display: none;
+}
+
+.control {
+    margin-top: 30px;
+}
+
+.has-text-centered {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.btn-sign-in-or-up {
+    width: 150px;
+    margin-bottom: 1.5rem;
+}
+
+/************** banner css **************/
+.flexbox {
+    background-color: #F5F1EE;
+    background-size: 100% 300px;
+    width: 100%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
+    padding-bottom: 100px;
+}
+
+.search > h1 {
+    color: black;
+    margin-top: 15px;
+    font-size: 2rem;
+    text-align: center;
+}
+
+/******* search-box  css *******/
+.search > div > input {
+    color: black;
+    font-size: 16px;
+    background: transparent;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    border: solid 3px black;
+    outline: none;
+    border-radius: 35px;
+    transition: width 0.5s;
+}
+
+.search > div > input::placeholder {
+    color: black;
+    opacity: 0;
+    transition: opacity 150ms ease-out;
+}
+
+.search > div > input:focus::placeholder {
+    opacity: 1;
+}
+
+.search > div > input:focus,
+.search > div > input:not(:placeholder-shown) {
+    width: 250px;
+}
+
+.search-box {
+    position: absolute;
+    /*top: 15%;*/
+    left: 50%;
+    transform: translate(-50%, 50%);
+    height: 40px;
+    border-radius: 40px;
+    padding: 10px;
+}
+
+/************** 카테고리 css **************/
+.category {
+    margin: 30px 0;
+}
+
+.category_list {
+    margin-left: 12px;
+    padding: 0;
+}
+
+/************** plant-list css **************/
+.plant-list-section {
+    width: 1600px;
+    margin: auto;
+}
+
+.plant-list {
+    width: 1600px;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    justify-content: start;
+}
+
+.plant-list-item {
+    margin: 0 25px 50px 25px;
+    height: 400px;
+    width: 350px;
+    border: transparent;
+}
+
+.plant-img {
+    height: 350px;
+    width: 350px;
+    margin-bottom: 10px;
+}
+
+.plant-title {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    padding-left: 10px;
+
+}
+
+.more {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 0 30px;
+    margin-top: 35px;
+}
+
+/************** 검색했을때 하이라이트 **************/
+div.highlight > h3 {
+    background-color: #41e014;
+    color: white;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+#serch_button {
+    background-color: transparent;
+    border: none;
+}
