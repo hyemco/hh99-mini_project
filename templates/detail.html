@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Webpage Title -->
+	<title>SWEETER - {{ plant.title }}</title>
+
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+	<!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+	<!-- Font Awesome CSS -->
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+	<link href="{{ url_for('static', filename='mystyle.css') }}" rel="stylesheet">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+	<!-- JS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <!-- Gogle font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        .wrap {
+            width: 1000px;
+            margin: auto;
+        }
+
+        .container {
+            margin-left: 200px;
+        }
+
+        .posting-box {
+            width: 500px;
+            margin-top: 20px;
+        }
+
+        #collapseExample {
+            width: 600px;
+        }
+
+        .header_wrap > div {
+            width: 1900px;
+            margin: auto;
+            display: flex;
+            padding-top: 10px;
+            /*border: solid 1px black;*/
+
+        }
+
+        #header_logo {
+            margin-left: 20px;
+        }
+
+        #company_name {
+            margin-left: 10px;
+        }
+
+        #logout {
+            margin-left: 1650px;
+        }
+
+        #title h2 {
+            font-size: 16px;
+            font-weight: 500;
+            letter-spacing: normal;
+            color: #00b564;
+            margin-bottom: 5px;
+        }
+
+        #title h1 {
+            font-size: 30px;
+            font-weight: bold;
+            line-height: 1.53;
+            letter-spacing: -0.9px;
+            margin-bottom: 20px;
+        }
+
+        #title h3 {
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.64;
+            letter-spacing: -0.42px;
+            color: #333;
+            margin-bottom: 50px;
+        }
+
+        .main_wrap {
+            margin-top: 40px;
+        }
+
+        #main {
+            width: 1500px;
+            display: flex;
+            margin: auto;
+            /*border: solid 1px black;*/
+        }
+
+        #plant_detail {
+            width: 725px;
+            padding-top: 50px;
+            margin-left: 50px;
+        }
+
+        .table_item_flex {
+            display: flex;
+            border-top: solid 1px #ccc
+
+        }
+
+        .table_item_flex li {
+            width: 367.5px;
+            padding: 40px;
+        }
+
+        .table_item_flex img {
+            width: 26px;
+            height: 26px;
+            object-fit: cover;
+            display: inline-block;
+            margin-bottom: 13px;
+        }
+
+        .table_item_flex h1 {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: -0.42px;
+            margin-bottom: 4px;
+        }
+
+        .table_item_flex h2 {
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1.64;
+            letter-spacing: -0.42px;
+            color: #333;
+        }
+
+        /*.comment_box {*/
+        /*    display: flex;*/
+        /*    width: 1500px;*/
+        /*    margin: auto;*/
+        /*    !*border: solid 1px black;*!*/
+        /*}*/
+
+        /*.comment {*/
+        /*    width: 650px;*/
+        /*    height: 80px;*/
+        /*    margin-left: 30px;*/
+        /*    padding-top: 5px;*/
+        /*    border-radius: 15px;*/
+        /*    border: solid 1px #aaa;*/
+        /*    background-color: #fff;*/
+        }
+
+        .comment h1 {
+            padding-top: 5px;
+            font-size: 13px;
+            margin-left: 20px;
+            font-weight: bold;
+            color: #333;
+
+        }
+
+        .comment input {
+            width: 550px;
+            height: 30px;
+            font-size: 12px;
+            margin-left: 10px;
+            padding-left: 10px;
+            border-radius: 8px;
+            outline: none;
+            background-color: #efefef;
+        }
+
+        .comment button {
+            width: 60px;
+            height: 30px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /*.review {*/
+        /*    width: 650px;*/
+        /*    margin-left: 100px;*/
+        /*    border-radius: 8px;*/
+        /*    !*border: solid 1px black;*!*/
+        /*    background-color: #eee;*/
+        /*}*/
+
+        /*.review ul {*/
+        /*    width: 600px;*/
+        /*    height: 35px;*/
+        /*    margin-top: 10px;*/
+        /*    margin-left: 25px;*/
+        /*    border-top: solid 1px #aaa;*/
+
+
+        /*}*/
+
+        /*.review li {*/
+        /*    font-size: 14px;*/
+        /*    margin-top: 15px;*/
+        /*    !*border-top: solid 1px #aaa;*!*/
+        /*    !*border: solid 1px black;*!*/
+        /*}*/
+
+
+    </style>
+
+	    <script>
+        $(document).ready(function () {
+            listing()
+        })
+
+        function listing() {
+            $.ajax({
+                type: "GET",
+                url: "/diary",
+                data: {},
+                success: function (response) {
+                    let diaries = response['all_diary']
+                    for (let i = 0; i < diaries.length; i++) {
+                        let user = diaries[i]['user']
+                        let comment = diaries[i]['comment']
+                        let temp_html = `<div class="card mb-3"">
+                                            <div class="card-body">
+                                                <h5 class="card-title">${user}</h5>
+                                                <p class="card-text">${comment}</p>
+                                            </div>
+                                           </div>`
+                        $('#card-box').append(temp_html)
+                    }
+                }
+            })
+        }
+
+        function posting() {
+            let user = $('#user').val()
+            let comment = $('#comment').val()
+            $.ajax({
+                type: "POST",
+                url: "/diary",
+                data: {user_give: user, comment_give: comment},
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+                }
+            })
+        }
+    </script>
+</head>
+<body>
+<!---------------------- navbar ---------------------->
+<nav>
+	<div class="contain">
+		<a href="/" class="logo">
+			<img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
+			<span class="logo_span">SHARE<br>GARDEN</span>
+		</a>
+		<div class="logout-btn">
+			<button class="level-item button is-sparta is-outlined">Logout</button>
+		</div>
+	</div>
+</nav>
+<!---------------------- main ---------------------->
+<main class="main_wrap">
+	<div id="main">
+		<div id="plant_img">
+			<img src="{{ plant.image }}" alt="" width="712px ">
+		</div>
+		<div id="plant_detail" w>
+			<div id="title">
+				<h2>{{ details.eng_title }}</h2>
+				<h1>{{ plant.title }}</h1>
+				<h3>{{ details.desc }}</h3>
+			</div>
+			<div id="table">
+				<ul class="table_item">
+					<div class="table_item_flex">
+						<li style="border-right: solid 1px #ccc">
+							<img src="{{ details.sub_img_1 }}" alt="">
+							<h1>{{ details.sub_title_1 }}</h1>
+							<h2>{{ details.sub_desc_1 }}</h2>
+						</li>
+						<li>
+							<img src="{{ details.sub_img_2 }}" alt="">
+							<h1>{{ details.sub_title_2 }}</h1>
+							<h2>{{ details.sub_desc_2 }}</h2>
+						</li>
+					</div>
+					<div class="table_item_flex" style="border-bottom: solid 1px #ccc">
+						<li style="border-right: solid 1px #ccc">
+							<img src="{{ details.sub_img_3 }}" alt="">
+							<h1>{{ details.sub_title_3 }}</h1>
+							<h2>{{ details.sub_desc_3 }}</h2>
+						</li>
+						<li>
+							<img src="{{ details.sub_img_4 }}" alt="">
+							<h1>{{ details.sub_title_4 }}</h1>
+							<h2>{{ details.sub_desc_4 }}</h2>
+						</li>
+					</div>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<hr>
+	<!---------------------- comment ---------------------->
+    <div class="wrap">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <p>
+                    <a class="btn btn-success" data-toggle="collapse" href="#collapseExample" role="button"
+                       aria-expanded="false" aria-controls="collapseExample">
+                        댓글등록
+                    </a>
+                </p>
+                <div class="collapse" id="collapseExample">
+                    <div class="card card-body">
+                        <div class="posting-box">
+                            <div class="form-group">
+                                <div id="user">사용자명 나타내기.</div>
+                            </div>
+                            <div class="form-group">
+                            <textarea class="form-control" id="comment" rows="3"
+                                      placeholder="내용 입력"></textarea>
+                            </div>
+                            <button onclick="posting()" type="button" class="btn btn-success">저장하기</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="card-box">
+<!--            <div class="card mb-3">-->
+<!--            <div class="card-body">-->
+<!--                <h5 class="card-title">사용자명</h5>-->
+<!--                <p class="card-text">내용 입력</p>-->
+<!--                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{#	<div class="comment_box">
+		<div class="comment">
+			<h1>간단 후기</h1>
+			<input type="text" placeholder="작성부탁드립니다~">
+			<button>등록</button>
+		</div>
+		<div class="review">
+			<ul>
+				<li>
+					엄청 쉬움. 물 많이 안줘도 됨.
+				</li>
+			</ul>
+			<ul>
+				<li>
+					디자인 왜이렇게 어렵나...
+				</li>
+			</ul>
+			<ul>
+				<li>
+					하 모르겠다 모르겠어... 백앤드 갈래...
+				</li>
+			</ul>
+			<ul>
+				<li>
+					하 모르겠다 모르겠어... 백앤드 갈래...
+				</li>
+			</ul>
+			<ul>
+				<li>
+					하 모르겠다 모르겠어... 백앤드 갈래...
+				</li>
+			</ul>
+			<ul>
+				<li>
+					하 모르겠다 모르겠어... 백앤드 갈래...
+				</li>
+			</ul>
+			<ul>
+				<li>
+					엄청 쉬움. 물 많이 안줘도 됨.
+				</li>
+			</ul>
+			<ul>
+				<li>
+					디자인 왜이렇게 어렵나...
+				</li>
+			</ul>
+			<ul>
+				<li>
+					하 모르겠다 모르겠어... 백앤드 갈래...
+				</li>
+			</ul>
+			<ul>
+				<li>
+					하 모르겠다 모르겠어... 백앤드 갈래...
+				</li>
+			</ul>
+			<ul>
+				<li>
+					하 모르겠다 모르겠어... 백앤드 갈래...
+				</li>
+			</ul>
+			<li>
+				하 모르겠다 모르겠어... 백앤드 갈래...
+			</li>
+			</ul>
+		</div>
+	</div>#}
+
+</main>
+</body>
+</html>

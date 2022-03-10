@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<!-- Webpage Title -->
-	<title>Log In | SHAREGARDEN</title>
+	<title>SHAREGARDEN</title>
 
 	<!-- Required meta tags -->
 	<meta charset="utf-8">
@@ -27,46 +27,49 @@
 	<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700&display=swap" rel="stylesheet">
 
 
-        <script>
-	        // 로딩되자마자 리스트 보여주기
-	        $(document).ready(function () {
-				showLists()
-	        });
+    <!---------------------- 검색창 인식 (띄어쓰기 인식못함ㅠㅠ) ---------------------->
+    <script>
+        //검색용 식물 이름 리스트 만들기
+        let list = {{ plant_card|tojson }};
+        let card_list = [];
 
-            // 식물 리스트 보여주기
-            function showLists() {
-                $.ajax({
-                    type: "GET",
-                    url: "/listing",
-                    data: {},
-                    success: function (response) {
-                        let plant_card = response['plant_card']
-	                    for (let i = 0; i < plant_card.length; i++) {
-                            let card = plant_card[i]
-		                    let temp_html = `<div class="card plant-list-item" id="${card['_id']}">
-											    <a href="/detail">
-												    <img class="plant-img" src="${card['image']}">
-											    </a>
-											    <h3 class="plant-title">${card['title']}</h3>
-										    </div>`
-		                    $('#plant-box').append(temp_html)
-                        }
-                    }
-                })
+        for (let i=0;i<list.length;i++) {
+            card_list.push(list[i]['title'])
+        }
+        console.log(card_list)
+
+
+        function search() {
+            let search = $("#input-word").val()
+            if (search == "") {
+                        // 빈 문자열이면 얼럿
+                alert("검색어를 입력해주세요.")
+                return
             }
-        </script>
+            if (card_list.includes(search)) {
+                        // 리스트에있으면 그위치로 이동... 근데 해당하는 카드만 나타나게하고싶긴함
+                $(`#plant-${search}`).addClass('highlight').siblings().removeClass('highlight');
+                $(`#plant-${search}`)[0].scrollIntoView();
+
+            } else {
+                        // 리스트에 없으면 식물찾을수없습니다 라고
+                alert("식물을 찾을 수 없습니다.")
+                return
+            }
+        }
+    </script>
 </head>
 <body>
     <!---------------------- navbar ---------------------->
     <nav>
 	    <div class="contain">
 		    <a href="/" class="logo">
-			    <img src="../static/img/logo.png" alt="logo">
+			    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="logo">
 			    <span class="logo_span">SHARE<br>GARDEN</span>
 		    </a>
-		    <div class="logout-btn">
-			    <button class="level-item button is-sparta is-outlined">Logout</button>
-		    </div>
+{#		    <div class="logout-btn">#}
+{#			    <button class="level-item button is-sparta is-outlined">Logout</button>#}
+{#		    </div>#}
 	    </div>
     </nav>
 
@@ -77,22 +80,32 @@
 				<h1>어떤 식물을</h1>
 				<h1>키우고 싶으신가요?</h1>
 				<div class="search-box">
-					<input type="text" placeholder="식물 이름을 입력하세요." required>
+					<input type="search" id="input-word" placeholder="식물 이름을 입력하세요." required>
+					<button class="btn btn-light" onclick="search()"><i class="fa fa-search"></i></button>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<!---------------------- category & list ---------------------->
+	<!---------------------- category  ---------------------->
     <section class="plant-list-section">
-	    <div class="category">
-		    <ul class="category_list">
-			    <button type="button" class="btn btn-outline-warning">카테고리 1</button>
-			    <button type="button" class="btn btn-outline-warning">카테고리 2</button>
-		    </ul>
-	    </div>
+{#	    <div class="category">#}
+{#		    <ul class="category_list">#}
+{#			    <button type="button" class="btn btn-outline-warning">카테고리 1</button>#}
+{#			    <button type="button" class="btn btn-outline-warning">카테고리 2</button>#}
+{#		    </ul>#}
+{#	    </div>#}
 
-	    <div class="plant-list" id="plant-box"></div>
+
+        <!----------------------  list ---------------------->
+        <div class="plant-list" id="plant-box">
+            {% for plant in plant_card %}
+                <div class="card plant-list-item" id="plant-{{ plant.title }}">
+                    <a href="/detail/{{ plant.title }}"><img class="plant-img" src="{{ plant.image }}"></a>
+                    <h3 class="plant-title">{{ plant.title }}</h3>
+                </div>
+            {% endfor %}
+        </div>
     </section>
 </body>
 </html>

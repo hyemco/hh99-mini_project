@@ -112,6 +112,7 @@ input::-webkit-calendar-picker-indicator {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 100px;
 }
 
 .search > h1 {
@@ -188,14 +189,15 @@ input::-webkit-calendar-picker-indicator {
 }
 
 .plant-list {
+    width: 1600px;
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
-    justify-content: space-between;
+    justify-content: start;
 }
 
 .plant-list-item {
-    margin: 0 12px 30px 12px;
+    margin: 0 25px 50px 25px;
     height: 400px;
     width: 350px;
     border: transparent;
@@ -211,6 +213,7 @@ input::-webkit-calendar-picker-indicator {
     font-size: 1.5rem;
     font-weight: bolder;
     padding-left: 10px;
+
 }
 
 .more {
@@ -220,4 +223,11 @@ input::-webkit-calendar-picker-indicator {
     align-items: center;
     margin: 0 30px;
     margin-top: 35px;
+}
+
+/************** 검색했을때 하이라이트 **************/
+div.highlight > h3 {
+    background-color: #2da30a;
+    color: white;
+
 }

@@ -21,11 +21,12 @@ db = client.dbmini_project
 
 @app.route('/')
 def home():
+    plant_card = list(db.plants.find({}, {'_id': False}).limit(30))
     token_receive = request.cookies.get('mytoken')
     try:
         payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
 
-        return render_template('index.html')
+        return render_template('index.html', plant_card=plant_card)
     except jwt.ExpiredSignatureError:
         return redirect(url_for("login", msg="로그인 시간이 만료되었습니다."))
     except jwt.exceptions.DecodeError:
@@ -36,20 +37,6 @@ def home():
 def login():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
-
-
-@app.route('/user/<username>')
-def user(username):
-    # 각 사용자의 프로필과 글을 모아볼 수 있는 공간
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        status = (username == payload["id"])  # 내 프로필이면 True, 다른 사람 프로필 페이지면 False
-
-        user_info = db.users.find_one({"username": username}, {"_id": False})
-        return render_template('user.html', user_info=user_info, status=status)
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
 
 
 @app.route('/sign_in', methods=['POST'])
@@ -66,7 +53,7 @@ def sign_in():
             'id': username_receive,
             'exp': datetime.utcnow() + timedelta(seconds=60 * 60 * 24)  # 로그인 24시간 유지
         }
-        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+        token = jwt.encode(payload, SECRET_KEY, algorithm='HS256').decode('utf-8')
 
         return jsonify({'result': 'success', 'token': token})
     # 찾지 못하면
@@ -101,6 +88,52 @@ def listing():
     for card in plant_card:
         card['_id'] = str(card['_id'])
     return jsonify({'plant_card': plant_card})
+
+
+@app.route('/detail/', methods=['GET'])
+def get_details():
+    detail_box = list(db.plant_detail.find({}, {'_id': False}))
+    return jsonify({'detail_box': detail_box})
+
+
+@app.route('/detail/<title>')
+def detail(title):
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        plant = db.plants.find_one({"title": title}, {"_id": False})
+        details = db.plant_detail.find_one({"title": title}, {"_id": False})
+        return render_template('detail.html', plant=plant, details=details, target=title)
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
+
+
+
+
+@app.route('/diary', methods=['GET'])
+def show_diary():
+    diaries = list(db.diary.find({},{'_id':False}))
+    return jsonify({'all_diary': diaries})
+
+@app.route('/diary', methods=['POST'])
+def save_diary():
+    user_receive = request.form['user_give']
+    comment_receive = request.form['comment_give']
+
+    doc = {
+        'user':user_receive,
+        'comment':comment_receive
+    }
+    db.diary.insert_one(doc)
+
+    return jsonify({'msg': '저장완료!'})
+
+
+
+
+
+
+
 
 
 # # 상세 페이지 크롤링
