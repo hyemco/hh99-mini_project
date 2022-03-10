@@ -16,6 +16,7 @@ SECRET_KEY = 'SPARTA'
 client = MongoClient('3.35.17.197', 27017, username="test", password="test")
 
 # 로컬호스트용 mongodb
+client = MongoClient('localhost', 27017)
 db = client.dbmini_project
 
 ####### 페이지 이동
@@ -166,6 +167,7 @@ def delete_star():
     except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
         return redirect(url_for("home"))
 
+
 # # 상세 페이지 크롤링
 # import requests
 # from bs4 import BeautifulSoup
@@ -187,6 +189,7 @@ def delete_star():
 #         'image':image
 #     }
 #     db.plants.insert_one(doc)
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
