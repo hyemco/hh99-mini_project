@@ -19,6 +19,7 @@ client = MongoClient('3.35.17.197', 27017, username="test", password="test")
 # client = MongoClient('localhost', 27017)
 db = client.dbmini_project
 
+####### 페이지 이동
 @app.route('/')
 def home():
     plant_card = list(db.plants.find({}, {'_id': False}).limit(30))
@@ -32,16 +33,28 @@ def home():
     except jwt.exceptions.DecodeError:
         return redirect(url_for("login", msg="로그인 정보가 존재하지 않습니다."))
 
-
+# 로그인
 @app.route('/login')
 def login():
     msg = request.args.get("msg")
     return render_template('login.html', msg=msg)
 
+# 상세 페이지
+@app.route('/detail/<title>')
+def detail(title):
+    token_receive = request.cookies.get('mytoken')
+    try:
+        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
+        plant = db.plants.find_one({"title": title}, {"_id": False})
+        details = db.plant_detail.find_one({"title": title}, {"_id": False})
+        return render_template('detail.html', plant=plant, details=details, target=title)
+    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
+        return redirect(url_for("home"))
 
+
+# 로그인
 @app.route('/sign_in', methods=['POST'])
 def sign_in():
-    # 로그인
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
 
@@ -61,6 +74,7 @@ def sign_in():
         return jsonify({'result': 'fail', 'msg': '아이디/비밀번호가 일치하지 않습니다.'})
 
 
+# 회원가입 - 서버 저장
 @app.route('/sign_up/save', methods=['POST'])
 def sign_up():
     username_receive = request.form['username_give']
@@ -74,6 +88,7 @@ def sign_up():
     return jsonify({'result': 'success'})
 
 
+# 회원가입 - 중복확인
 @app.route('/sign_up/check_dup', methods=['POST'])
 def check_dup():
     username_receive = request.form['username_give']
@@ -81,7 +96,7 @@ def check_dup():
     return jsonify({'result': 'success', 'exists': exists})
 
 
-# API - DB 데이터 불러오기(메인페이지-식물 리스트)
+# DB 데이터 가져오기(메인페이지-식물 리스트) : jinja2로 index.html에서 나타내기
 @app.route('/listing', methods=['GET'])
 def listing():
     plant_card = list(db.plants.find({}).limit(30))
@@ -90,22 +105,12 @@ def listing():
     return jsonify({'plant_card': plant_card})
 
 
+# API - DB 데이터 가져오기(상세페이지-식물 detail) : jinja2로 detail.html에서 나타냈음
 @app.route('/detail/', methods=['GET'])
 def get_details():
     detail_box = list(db.plant_detail.find({}, {'_id': False}))
     return jsonify({'detail_box': detail_box})
 
-
-@app.route('/detail/<title>')
-def detail(title):
-    token_receive = request.cookies.get('mytoken')
-    try:
-        payload = jwt.decode(token_receive, SECRET_KEY, algorithms=['HS256'])
-        plant = db.plants.find_one({"title": title}, {"_id": False})
-        details = db.plant_detail.find_one({"title": title}, {"_id": False})
-        return render_template('detail.html', plant=plant, details=details, target=title)
-    except (jwt.ExpiredSignatureError, jwt.exceptions.DecodeError):
-        return redirect(url_for("home"))
 
 
 # # 상세 페이지 크롤링
