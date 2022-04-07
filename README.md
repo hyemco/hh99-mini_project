@@ -12,13 +12,13 @@
 <table>
     <tr>
         <td align="center">
-        <a href="#;"><img src="https://img.shields.io/badge/권효빈-0014A7?style=뱃지모양&logo=로고&logoColor=white"/></a>
+        <a href="#;">권효빈</a>
         </td>
         <td align="center">
-        <a href="#;"><img src="https://img.shields.io/badge/박만수-FFE812?style=뱃지모양&logo=로고&logoColor=black"/></a>
+        <a href="#;">박만수</a>
         </td>
         <td align="center">
-        <a href="https://velog.io/@hyemco"><img src="https://img.shields.io/badge/유혜민-8C58E7?style=뱃지모양&logo=로고&logoColor=white"/></a>
+        <a href="https://velog.io/@hyemco">유혜민</a>
         </td>
     </tr>
     <tr>
