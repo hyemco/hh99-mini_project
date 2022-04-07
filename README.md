@@ -12,13 +12,13 @@
 <table>
     <tr>
         <td align="center">
-        <a href="#;">권효빈</a>
+        <a href="https://github.com/hyopp">권효빈</a>
         </td>
         <td align="center">
-        <a href="#;">박만수</a>
+        <a href="https://github.com/parkmansu?tab=repositories">박만수</a>
         </td>
         <td align="center">
-        <a href="https://velog.io/@hyemco">유혜민</a>
+        <a href="https://github.com/hyemco">유혜민</a>
         </td>
     </tr>
     <tr>
