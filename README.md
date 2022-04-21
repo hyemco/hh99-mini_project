@@ -1,5 +1,5 @@
 <h2>🍀 프로젝트 소개 🍀</h2>
-
+Cancel changes
 <h3>프로젝트명: SHARE GARDEN </h3>
 <p> ✅ "SHARE GARDEN"은 식물을 사랑하고 궁금해하는 사람들이 정보를 얻고 자신만의 꿀팁을 공유하는 사이트입니다. </p>
 
@@ -39,7 +39,7 @@
 
 <br>
 
-<h2> 📷 와이드프레임 📷 </h2>
+<h2> 📷 와이어프레임 📷 </h2>
 
 ![image](https://user-images.githubusercontent.com/98294357/158056430-3468e127-3f1a-49ad-b6dd-84dc5f271825.png)
 
